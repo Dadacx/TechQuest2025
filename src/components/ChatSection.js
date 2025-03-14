@@ -14,9 +14,7 @@ const ChatSection = ({ character, chatData }) => {
                             <img width={40} className='avatar' src={chat.author === 'ai' ? character.avatar : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={chat.author === 'ai' ? character.name : 'You'} />
                             <span className='user-name'>{chat.author === 'ai' ? character.name : 'Ty'}</span>
                         </div>
-                        <p>
                         <ReactMarkdown
-                            children={chat.text}
                             remarkPlugins={[remarkGfm]}
                             components={{
                                 code({ node, inline, className, children, ...props }) {
@@ -27,7 +25,7 @@ const ChatSection = ({ character, chatData }) => {
                                             language={match[1]}
                                             PreTag="div"
                                         >
-                                            {String(children).replace(/\n$/, "")}
+                                            {String(children).replace(/\n$/, "\n")}
                                         </SyntaxHighlighter>
                                     ) : (
                                         <code className={className} {...props}>
@@ -35,10 +33,15 @@ const ChatSection = ({ character, chatData }) => {
                                         </code>
                                     );
                                 },
+                                p({ children }) {
+                                    return <p style={{ whiteSpace: 'pre-line' }}>{children}</p>;
+                                }
                             }}
-                        /></p>
+                        >
+                            {chat.text}
+                        </ReactMarkdown>
                     </div>
-                )
+                );
             })}
         </div>
     );

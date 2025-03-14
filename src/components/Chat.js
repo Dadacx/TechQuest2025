@@ -15,6 +15,11 @@ const Chat = ({ character }) => {
     }, []);
 
     useEffect(() => {
+        setIsWelcome(true);
+        setChatData([]);
+    }, [character]);
+
+    useEffect(() => {
         if (prompt) {
             console.log("prompt", prompt);
             PromptFetch(prompt).then((response) => {
@@ -29,7 +34,10 @@ const Chat = ({ character }) => {
         const promptValue = textareaRef.current.value;
 
         if (promptValue.trim() !== '') {
-        setPrompt(promptValue);
+//             console.log(`${promptValue}
+// ${character.behaviour}`);
+        setPrompt(`${promptValue}
+${character.behaviour}`);
         setIsWelcome(false);
         setChatData([...chatData, { text: promptValue, author: 'user' }]);
         textareaRef.current.value = '';
