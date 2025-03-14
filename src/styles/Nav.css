@@ -1,0 +1,28 @@
+#bookmarks {
+    background-color: var(--color3);
+    filter: brightness(75%);
+    width: fit-content;
+    min-width: 3em;
+    max-width: 20em;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#bookmarks ul {
+    list-style-type: none;
+}
+
+#bookmarks ul li {
+    filter: brightness(50%);
+    background-color: var(--color3);
+    /*
+    border-style: solid;
+    border-color: yellow;
+    border-width: 2px 0px 2px 2px;
+    */
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    padding: 0.25em 2em 0.25em 0.25em;
+    margin: 0.5em -1em 0.5em 0em;
+}
