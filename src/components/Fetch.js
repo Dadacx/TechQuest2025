@@ -10,8 +10,23 @@ const PromptFetch = async (prompt) => {
             }`
     })
     const json = await res.json()
+    console.log(json)
+    return json.candidates[0].content.parts[0].text
+}
+const CharactersFetch = async () => {
+    const res = await fetch(`http://192.168.186.71:1122/characters`)
+    const json = await res.json()
 
+    return json
+}
+const AddCharacterFetch = async (character) => {
+    const res = await fetch(`http://192.168.186.71:1122/characters`, {
+        method: "POST",
+        body: JSON.stringify(character),
+    })
+    const json = await res.json()
+    console.log(json)
     return json.candidates[0].content.parts[0].text
 }
 
-export default PromptFetch
+export { PromptFetch, CharactersFetch, AddCharacterFetch }

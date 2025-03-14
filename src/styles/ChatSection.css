@@ -22,8 +22,8 @@
 .message {
     font-size: 18px;
     padding: 10px;
-    max-width: 500px;
-    width: 500px;
+    /* max-width: 500px; */
+    width: 85%;
 }
 .user-message {
     float: right;
@@ -32,9 +32,9 @@
 .ai-message {
     float: left;
 }
-.user-message>span {
+.user-message>p {
     margin-right: 50px;
 }
-.ai-message>span {
+.ai-message>p {
     margin-left: 50px;
 }
