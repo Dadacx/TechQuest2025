@@ -1,11 +1,20 @@
 import Chat from './Chat.js'
 import testCharacter from '../characters.json'
 import '../styles/Nav.css'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
+import Settings from './Settings.js'
+import { CharactersFetch } from './Fetch.js'
 
 const Nav = () => {
-    const characters = testCharacter
+    // const characters = testCharacter
+    const [ characters, setCharacters ] = useState(null)
+    const [ selectedCharacter, setSelectedCharacter ] = useState(0)
     const [ activeBookmark, setBookmark ] = useState("bookmark-1")
+    useEffect(() => {
+        CharactersFetch().then((response) => {
+            setCharacters(response)
+        })
+    }, [])
     useEffect(() => {
         const allButtons = document.querySelectorAll("#bookmarks ul li")
         var activeIndex = parseInt(activeBookmark.split("-")[1])
@@ -20,6 +29,7 @@ const Nav = () => {
             //forEach((n) => {n.style.filter = "brightness(50%)"})
         //document.getElementById(activeBookmark).style.filter = "brightness(133%)"
     }, [ activeBookmark ])
+    console.log(characters)
     return (
         <>
             <div id='bookmarks'>
@@ -31,7 +41,8 @@ const Nav = () => {
                     <li id="bookmark-5" onClick={() => setBookmark("bookmark-5")}>Tincidunt morbi.</li>
                 </ul>
             </div>
-            <Chat character={characters[0]} />
+            <Settings characters={characters} />
+            {characters && <Chat character={characters[0]} />}
         </>
     )
 }

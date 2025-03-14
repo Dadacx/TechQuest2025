@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import '../styles/Chat.css';
-import PromptFetch from './Fetch';
+import {PromptFetch} from './Fetch';
 import ChatSection from './ChatSection';
 
 const Chat = ({ character }) => {
