@@ -20,24 +20,22 @@ const Chat = ({ character }) => {
             PromptFetch(prompt).then((response) => {
                 console.log(response)
                 setChatData([...chatData, { text: response, author: 'ai' }]);
+                setPrompt(null);
             });
         }
     }, [prompt]);
     
     function sendPrompt() {
-        const prompt = textareaRef.current.value;
-        // setPrompt(prompt);
-        // inputBoxRef.current.classList.add('input-box-down')
-        // document.getElementById('chat-box').classList.
-        setIsWelcome(false);
-        var data = [...chatData]
-        data.push({ text: prompt, author: 'user' })
-        data.push({ text: prompt+" (AI)", author: 'ai' })
-        setChatData(data);
-        // setChatData([...chatData, { text: prompt, author: 'user' }]);
-        textareaRef.current.value = '';
+        const promptValue = textareaRef.current.value;
 
-        // setChatData([...chatData, { text: prompt+" (AI)", author: 'ai' }]);
+        if (promptValue.trim() !== '') {
+        setPrompt(promptValue);
+        setIsWelcome(false);
+        setChatData([...chatData, { text: promptValue, author: 'user' }]);
+        textareaRef.current.value = '';
+        textareaRef.current.focus();
+        adjustHeight();
+        }
     }
 
     function adjustHeight() {
@@ -61,6 +59,11 @@ const Chat = ({ character }) => {
                     placeholder="Jak mogę pomóc?"
                     ref={textareaRef}
                     onInput={adjustHeight}
+                    onKeyUp={(event) => {
+                        if (event.key === 'Enter') {
+                          console.log('Enter został naciśnięty!');
+                          sendPrompt();
+                        }}}
                 ></textarea>
                 <div className="send-btn" onClick={sendPrompt}>
                     <div className='send-btn-icon'></div>
