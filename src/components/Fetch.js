@@ -24,9 +24,9 @@ const AddCharacterFetch = async (character) => {
         method: "POST",
         body: JSON.stringify(character),
     })
-    const json = await res.json()
-    console.log(json)
-    return json.candidates[0].content.parts[0].text
+    const response = await res.text()
+    console.log(response)
+    return res.ok ? response : null
 }
 
 export { PromptFetch, CharactersFetch, AddCharacterFetch }

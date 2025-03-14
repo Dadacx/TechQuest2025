@@ -13,6 +13,7 @@ const Nav = () => {
     useEffect(() => {
         CharactersFetch().then((response) => {
             setCharacters(response)
+            setSelectedCharacter(response[0].id)
         })
     }, [])
     useEffect(() => {
@@ -41,8 +42,8 @@ const Nav = () => {
                     <li id="bookmark-5" onClick={() => setBookmark("bookmark-5")}>Tincidunt morbi.</li>
                 </ul>
             </div>
-            <Settings characters={characters} />
-            {characters && <Chat character={characters[0]} />}
+            <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
+            {characters && <Chat character={characters.find(character => character.id === selectedCharacter)} />}
         </>
     )
 }
