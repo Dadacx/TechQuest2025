@@ -1,10 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
-import Test from './components/proompt.js'
+import Prompt from './components/proompt.js'
+import { useState, useEffect } from 'react';
 
 function App() {
+    const [ andrzej, setDuda ] = useState(null)
+    useEffect(() => {
+        const temp = async () => {
+            const odp = await Prompt("Opowiedz mi historie o wilku")
+            setDuda(odp)
+        }
+        temp()
+    }, [])
   return (
-    <Test/>
+    <>
+            {andrzej}
+    </>
   );
 }
 
