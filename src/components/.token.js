@@ -1,2 +1,2 @@
-const token = "fasdf"
+const token = "fasdasdfasfsaff"
 export default token
