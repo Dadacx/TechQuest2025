@@ -2,7 +2,7 @@ import '../styles/Forms.css';
 import { useRef, useState } from 'react';
 import close from '../images/close.svg'
 
-const CharacterForm = ({ Return, initialData, isEdit }) => {
+const CharacterForm = ({ Return, setShowForm, initialData, isEdit }) => {
   const [errors, setErrors] = useState({});
   const name = useRef(null);
   const avatar = useRef(null);
@@ -53,7 +53,7 @@ const CharacterForm = ({ Return, initialData, isEdit }) => {
   return (
     <div className='form-box-container'>
       <div className='form-box'>
-        <div className='close' onClick={() => Return(null)}><img src={close} alt='close_icon' /></div>
+        <div className='close' onClick={() => setShowForm(null)}><img src={close} alt='close_icon' /></div>
         <h1>{isEdit ? "Edytuj asystenta" : "Dodaj asystenta"}</h1>
         <div className='form-form'>
           <label><span>Nazwa</span>
