@@ -1,0 +1,40 @@
+.chat-section {
+    width: 100%;
+    height: 90vh;
+    overflow: auto;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.user-message .user-info {
+    flex-direction: row-reverse;
+}
+.avatar {
+    border-radius: 50%;
+}
+.user-name {
+    font-weight: bold;
+    font-size: 21px;
+}
+.message {
+    font-size: 18px;
+    padding: 10px;
+    max-width: 500px;
+    width: 500px;
+}
+.user-message {
+    float: right;
+    text-align: end;
+}
+.ai-message {
+    float: left;
+}
+.user-message>span {
+    margin-right: 50px;
+}
+.ai-message>span {
+    margin-left: 50px;
+}

@@ -1,0 +1,23 @@
+:root {
+    --color1: #000304;
+    --color2: #0b0e13;
+    --color3: #19252a;
+    --color4: #353c40;
+    --color5: #565b5b;
+    --font-color: #e2e2e2;
+}
+
+body {
+    margin: 0;
+    background-color: var(--color3);
+    color: var(--font-color);
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
