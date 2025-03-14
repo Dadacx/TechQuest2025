@@ -14,7 +14,7 @@ const Nav = () => {
             if (allButtons[i].id == activeBookmark) {
                 allButtons[i].style.filter = "brightness(133%)"
             } else {
-                allButtons[i].style.filter = `brightness(${i < activeIndex ? ((activeIndex - i) * 8)*10 : 50}%)`
+                allButtons[i].style.filter = `brightness(${(i + 1) > activeIndex ? 50 : 75}%)`
             }
         }
             //forEach((n) => {n.style.filter = "brightness(50%)"})
