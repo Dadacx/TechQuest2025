@@ -1,4 +1,4 @@
-import token from './.token.js'
+import token from '../../.token.js'
 const Test = () => {
     return (
         <div>
