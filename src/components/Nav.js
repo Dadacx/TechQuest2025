@@ -6,6 +6,10 @@ import Settings from './Settings.js'
 import { CharactersFetch } from './Fetch.js'
 
 const Nav = () => {
+    const [ bookmarks, setBookmarks ] = useState([
+        {id: "bookmark-1", name: "Zwykly chat."},
+        {id: "bookmark-2", name: "KotAI."},
+    ])
     // const characters = testCharacter
     const [ characters, setCharacters ] = useState(null)
     const [ selectedCharacter, setSelectedCharacter ] = useState(0)
@@ -18,8 +22,7 @@ const Nav = () => {
     }, [])
     useEffect(() => {
         const allButtons = document.querySelectorAll("#bookmarks ul li")
-        var activeIndex = parseInt(activeBookmark.split("-")[1])
-        console.log(activeIndex)
+        const activeIndex = parseInt(activeBookmark.split("-")[1])
         for (var i = 0; i < allButtons.length; i++) {
             if (allButtons[i].id == activeBookmark) {
                 allButtons[i].style.filter = "brightness(133%)"
@@ -27,19 +30,21 @@ const Nav = () => {
                 allButtons[i].style.filter = `brightness(${(i + 1) > activeIndex ? 50 : 75}%)`
             }
         }
-            //forEach((n) => {n.style.filter = "brightness(50%)"})
-        //document.getElementById(activeBookmark).style.filter = "brightness(133%)"
     }, [ activeBookmark ])
-    console.log(characters)
+    const addBookmark = (name) => {
+        const lastIndex = parseInt(bookmarks[bookmarks.length-1].id.split("-")[1])
+        setBookmarks([...bookmarks, {id: `bookmark-${lastIndex+1}`, name: name}])
+    }
     return (
         <>
             <div id='bookmarks'>
                 <ul>
-                    <li id="bookmark-1" onClick={() => setBookmark("bookmark-1")}>Velit ultrices.</li>
-                    <li id="bookmark-2" onClick={() => setBookmark("bookmark-2")}>Convallis congue.</li>
-                    <li id="bookmark-3" onClick={() => setBookmark("bookmark-3")}>Aliquet leo.</li>
-                    <li id="bookmark-4" onClick={() => setBookmark("bookmark-4")}>Id natoque.</li>
-                    <li id="bookmark-5" onClick={() => setBookmark("bookmark-5")}>Tincidunt morbi.</li>
+                    {bookmarks.map((v) => {
+                        return (
+                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.name}</li>
+                        )
+                    })}
+                    <li id="plus" onClick={() => addBookmark("Nowe")}>+</li>
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
