@@ -4,6 +4,7 @@ import '../styles/Nav.css'
 import { use, useEffect, useState } from 'react'
 import Settings from './Settings.js'
 import History from './History.js'
+import delete_icon from '../images/delete-icon.svg'
 import { CharactersFetch, HistoryFetch, BookmarksFetch, AddBookmarkFetch, RemoveBookmarkFetch } from './Fetch.js'
 
 const plusGlyph = "➕"
@@ -102,13 +103,20 @@ const Nav = () => {
                 <ul>
                     {bookmarks.map((v) => {
                         return (
-                            <>
-                                <p style={{float: "left", margin: "0.25em", cursor: "pointer"}} onClick={() => RemoveBookmarkFetch({Nazwa: v.Nazwa}).then(r => {
-                                    if (r) setBookmarks(bookmarks.filter(x=>x.Nazwa !== v.Nazwa))
-                                })}>x</p>
-                                <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.Nazwa}</li>
-                            </>
-                        )
+                            <div className="bookmarks-box">
+                                <div className="image">
+                                    <img className="delete_image" src={delete_icon} alt="delete_icon"
+                                        onClick={() => RemoveBookmarkFetch(v.Nazwa).then(r => {
+                                            if (r) setBookmarks(bookmarks.filter(x => x.Nazwa !== v.Nazwa));
+                                        })}
+                                    />
+                                </div>
+                                <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)} title={v.workings}>
+                                    {v.Nazwa}
+                                </li>
+                            </div>
+                        );
+                        
                     })}
                     <li id="plus" onClick={() => openBookmarkInput()} title='Dodaj nową zakładke'>{plusikHTML}</li>
                 </ul>
