@@ -30,7 +30,6 @@ const Nav = () => {
             setHistory(response)
         })
         BookmarksFetch().then((response) => {
-            //console.log("REs: ", response[0])
             var newBookmarks = bookmarks
             var lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
             for (var i = 0; i < response.length; i++) {
@@ -40,12 +39,9 @@ const Nav = () => {
                 )
                 lastIndex += 1
             }
-            //
-            //console.log("NEW: ", newBookmarks)
             setBookmarks(newBookmarks)
         })
     }, [])
-    console.log(chatData)
     useEffect(() => {
         const allButtons = document.querySelectorAll("#bookmarks ul li")
         const activeIndex = parseInt(activeBookmark.split("-")[1])
@@ -96,24 +92,20 @@ const Nav = () => {
     }
 
     const addBookmark = (name, workings) => {
-        console.log("addBookmark", name, workings)
         const lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
         var bookmarkJSON = { Nazwa: name, workings: workings, id: `bookmark-${lastIndex + 1}` }
-        console.log(bookmarkJSON)
         setBookmarks([...bookmarks, bookmarkJSON])
-        // setBookmark(`bookmark-${lastIndex + 1}`)
     }
-    console.log("bookmarks", bookmarks)
     return (
         <>
             <div id='bookmarks'>
                 <ul>
                     {bookmarks.map((v) => {
                         return (
-                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.Nazwa}</li>
+                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)} title={v.workings}>{v.Nazwa}</li>
                         )
                     })}
-                    <li id="plus" onClick={() => openBookmarkInput()}>{plusikHTML}</li>
+                    <li id="plus" onClick={() => openBookmarkInput()} title='Dodaj nową zakładke'>{plusikHTML}</li>
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
