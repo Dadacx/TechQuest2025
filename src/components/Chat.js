@@ -3,7 +3,7 @@ import '../styles/Chat.css';
 import { PromptFetch, AddHistoryFetch } from './Fetch';
 import ChatSection from './ChatSection';
 
-const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWelcome }) => {
+const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWelcome, additionalPrompt }) => {
     const [prompt, setPrompt] = useState(null);
     const textareaRef = useRef(null);
     const inputBoxRef = useRef(null);
@@ -24,7 +24,7 @@ const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWe
                 console.log(response)
                 setChatData([...chatData, { text: response, author: 'ai' }]);
                 const promptJSON = {
-                    Prompt: prompt.replace(character.behaviour, "").trim(),
+                    Prompt: prompt.replace(character.behaviour, "").replace(`Dodatkowo ${additionalPrompt}`,"").trim(),
                     Odp: response,
                     Assistant: character.id
                 }
@@ -43,10 +43,10 @@ const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWe
         const promptValue = textareaRef.current.value;
 
         if (promptValue.trim() !== '') {
-            //             console.log(`${promptValue}
-            // ${character.behaviour}`);
-            setPrompt(`${promptValue}
-${character.behaviour}`);
+            var promptString = `${promptValue}
+${character.behaviour}${additionalPrompt ? `\nDodatkowo ${additionalPrompt}` : ''}`;
+            // console.log(promptString);
+            setPrompt(promptString)
             setIsWelcome(false);
             setChatData([...chatData, { text: promptValue, author: 'user' }]);
             textareaRef.current.value = '';
