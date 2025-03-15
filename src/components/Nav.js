@@ -4,19 +4,21 @@ import '../styles/Nav.css'
 import { use, useEffect, useState } from 'react'
 import Settings from './Settings.js'
 import History from './History.js'
-import { CharactersFetch, HistoryFetch } from './Fetch.js'
+import { CharactersFetch, HistoryFetch, BookmarksFetch, AddBookmarkFetch } from './Fetch.js'
 
 const plusGlyph = "➕"
 
 const Nav = () => {
-    const [ bookmarks, setBookmarks ] = useState([
-        {id: "bookmark-1", name: "Zwykly chat.", workings: ""},
+    const [bookmarks, setBookmarks] = useState([
+        { id: "bookmark-1", Nazwa: "Zwykly chat.", workings: null },
     ])
+    const [plusikHTML, setPlusikHTML] = useState(plusGlyph)
     // const characters = testCharacter
     const [characters, setCharacters] = useState(null)
     const [history, setHistory] = useState([])
     const [chatData, setChatData] = useState([]);
     const [isWelcome, setIsWelcome] = useState(true);
+    const [additionalPrompt, setAdditionalPrompt] = useState(null)
     const [selectedCharacter, setSelectedCharacter] = useState(0)
     const [activeBookmark, setBookmark] = useState("bookmark-1")
     useEffect(() => {
@@ -26,6 +28,12 @@ const Nav = () => {
         })
         HistoryFetch().then((response) => {
             setHistory(response)
+        })
+        BookmarksFetch().then((response) => {
+            response.map((bookmark) => {
+                console.log(bookmark)
+                addBookmark(bookmark.Nazwa, bookmark.Workings)
+            })
         })
     }, [])
     console.log(chatData)
@@ -39,46 +47,71 @@ const Nav = () => {
                 allButtons[i].style.filter = `brightness(${(i + 1) > activeIndex ? 50 : 75}%)`
             }
         }
-    }, [ activeBookmark ])
+    }, [activeBookmark])
+    useEffect(() => {
+        setChatData([])
+        setIsWelcome(true)
+        setAdditionalPrompt(bookmarks.find(bookmark => bookmark.id === activeBookmark).workings)
+    }, [activeBookmark])
 
     var bookmarkInputLock = false
     const openBookmarkInput = () => {
         if (bookmarkInputLock) return
         const plusik = document.getElementById("plus")
-        plusik.innerHTML = `<input type='text' autofocus placeholder='Nazwa zakladki'><hr><textarea placeholder='Dzialanie zakladki'>`
+        const anulacja = () => {
+            setPlusikHTML(plusGlyph)
+        }
+        setPlusikHTML(
+            <>
+                <input type='text' autoFocus placeholder='Nazwa zakladki' />
+                <textarea placeholder='Dzialanie zakladki'></textarea>
+            </>
+        )
         plusik.style.filter = "brightness(80%)"
         bookmarkInputLock = true
         plusik.onkeyup = (e) => {
             if (e.key == 'Enter') {
                 addBookmark(plusik.children[0].value, plusik.children[1].value)
-                plusik.innerHTML = plusGlyph
+                setPlusikHTML(plusGlyph)
+                bookmarkInputLock = false
+                AddBookmarkFetch({ Nazwa: plusik.children[0].value, workings: plusik.children[1].value }).then((response) => {
+                    if (response) {
+                        console.log(response);
+                    }
+                });
+            } else if (e.key == 'Escape') {
+                setPlusikHTML(plusGlyph)
                 bookmarkInputLock = false
             }
         }
     }
 
     const addBookmark = (name, workings) => {
-        const lastIndex = parseInt(bookmarks[bookmarks.length-1].id.split("-")[1])
-        setBookmarks([...bookmarks, {id: `bookmark-${lastIndex+1}`, name: name, workings: workings}])
-        setBookmark(`bookmark-${lastIndex+1}`)
+        console.log("addBookmark", name, workings)
+        const lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
+        var bookmarkJSON = { Nazwa: name, workings: workings, id: `bookmark-${lastIndex + 1}` }
+        console.log(bookmarkJSON)
+        setBookmarks((prevBookmarks) => [...prevBookmarks, bookmarkJSON])
+        // setBookmark(`bookmark-${lastIndex + 1}`)
     }
-
+    console.log("bookmarks", bookmarks)
     return (
         <>
             <div id='bookmarks'>
                 <ul>
                     {bookmarks.map((v) => {
                         return (
-                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.name}</li>
+                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.Nazwa}</li>
                         )
                     })}
-                    <li id="plus" onClick={() => openBookmarkInput()}>{plusGlyph}</li>
+                    <li id="plus" onClick={() => openBookmarkInput()}>{plusikHTML}</li>
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
             <History characters={characters} history={history} setChatData={setChatData} setIsWelcome={setIsWelcome} />
             {characters && <Chat character={characters.find(character => character.id === selectedCharacter)} setHistory={setHistory}
-                chatData={chatData} setChatData={setChatData} isWelcome={isWelcome} setIsWelcome={setIsWelcome} />}
+                chatData={chatData} setChatData={setChatData} isWelcome={isWelcome} setIsWelcome={setIsWelcome}
+                additionalPrompt={additionalPrompt} />}
         </>
     )
 }
