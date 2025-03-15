@@ -12,6 +12,7 @@ const Nav = () => {
     const [ bookmarks, setBookmarks ] = useState([
         {id: "bookmark-1", name: "Zwykly chat.", workings: ""},
     ])
+    const [ plusikHTML, setPlusikHTML ] = useState(plusGlyph)
     // const characters = testCharacter
     const [ characters, setCharacters ] = useState(null)
     const [ history, setHistory ] = useState([])
@@ -44,13 +45,24 @@ const Nav = () => {
     const openBookmarkInput = () => {
         if (bookmarkInputLock) return
         const plusik = document.getElementById("plus")
-        plusik.innerHTML = `<input type='text' autofocus placeholder='Nazwa zakladki'><hr><textarea placeholder='Dzialanie zakladki'>`
+        const anulacja = () => {
+            setPlusikHTML(plusGlyph)
+        }
+        setPlusikHTML(
+            <>
+                <input type='text' autoFocus placeholder='Nazwa zakladki'/>
+                <textarea placeholder='Dzialanie zakladki'></textarea>
+            </>
+        )
         plusik.style.filter = "brightness(80%)"
         bookmarkInputLock = true
         plusik.onkeyup = (e) => {
             if (e.key == 'Enter') {
                 addBookmark(plusik.children[0].value, plusik.children[1].value)
-                plusik.innerHTML = plusGlyph
+                setPlusikHTML(plusGlyph)
+                bookmarkInputLock = false
+            } else if (e.key == 'Escape') {
+                setPlusikHTML(plusGlyph)
                 bookmarkInputLock = false
             }
         }
@@ -71,7 +83,7 @@ const Nav = () => {
                             <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.name}</li>
                         )
                     })}
-                    <li id="plus" onClick={() => openBookmarkInput()}>{plusGlyph}</li>
+                    <li id="plus" onClick={() => openBookmarkInput()}>{plusikHTML}</li>
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
