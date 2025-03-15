@@ -13,11 +13,12 @@ const Nav = () => {
         {id: "bookmark-1", name: "Zwykly chat.", workings: ""},
     ])
     // const characters = testCharacter
-    const [ characters, setCharacters ] = useState(null)
-    const [ history, setHistory ] = useState([])
+    const [characters, setCharacters] = useState(null)
+    const [history, setHistory] = useState([])
     const [chatData, setChatData] = useState([]);
-    const [ selectedCharacter, setSelectedCharacter ] = useState(0)
-    const [ activeBookmark, setBookmark ] = useState("bookmark-1")
+    const [isWelcome, setIsWelcome] = useState(true);
+    const [selectedCharacter, setSelectedCharacter] = useState(0)
+    const [activeBookmark, setBookmark] = useState("bookmark-1")
     useEffect(() => {
         CharactersFetch().then((response) => {
             setCharacters(response)
@@ -75,9 +76,9 @@ const Nav = () => {
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
-            <History characters={characters} history={history} setChatData={setChatData} />
-            {characters && <Chat character={characters.find(character => character.id === selectedCharacter)}
-            chatData={chatData} setChatData={setChatData} setHistory={setHistory} />}
+            <History characters={characters} history={history} setChatData={setChatData} setIsWelcome={setIsWelcome} />
+            {characters && <Chat character={characters.find(character => character.id === selectedCharacter)} setHistory={setHistory}
+                chatData={chatData} setChatData={setChatData} isWelcome={isWelcome} setIsWelcome={setIsWelcome} />}
         </>
     )
 }
