@@ -1,7 +1,7 @@
 import '../styles/History.css';
 import { useState, useEffect } from 'react';
 
-const History = ({ characters, history, setChatData }) => {
+const History = ({ characters, history, setChatData, setIsWelcome }) => {
     const [showHistory, setShowHistory] = useState(false);
     useEffect(() => {
         document.addEventListener('click', handleHistoryClose);
@@ -15,7 +15,7 @@ const History = ({ characters, history, setChatData }) => {
             setShowHistory(false);
         }
     }
-console.log(history)
+    console.log(history)
     return (<>
         <div className="history-container">
             <div className="history-icon" onClick={() => setShowHistory(!showHistory)}></div>
@@ -25,9 +25,12 @@ console.log(history)
                     {history && history.map((item, index) => (
                         <div key={index} className="history-item">
                             <p className="history-prompt" onClick={() => {
-                                var tempData = []
-                                tempData.push({ text: item.Prompt, author: 'user' })
-                                tempData.push({ text: item.Odp, author: 'ai' })
+                                setIsWelcome(false);
+                                const character = characters.find(character => character.id === item.Assistant)
+                                var tempData = [
+                                    { text: item.Prompt, author: 'user', character: character },
+                                    { text: item.Odp, author: 'ai', character: character }
+                                ]
                                 setChatData((prevChatData) => [...prevChatData, ...tempData]);
                             }}>({characters.find(character => character.id === item.Assistant).name}) {'>'} {item.Tytul || item.Prompt}</p>
                             {/* <p className="history-odp">{item.Odp}</p> */}

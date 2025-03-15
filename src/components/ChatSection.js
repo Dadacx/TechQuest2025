@@ -11,8 +11,9 @@ const ChatSection = ({ character, chatData }) => {
                 return (
                     <div key={index} className={chat.author === 'ai' ? 'message ai-message' : 'message user-message'}>
                         <div className='user-info'>
-                            <img width={40} className='avatar' src={chat.author === 'ai' ? character.avatar : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={chat.author === 'ai' ? character.name : 'You'} />
-                            <span className='user-name'>{chat.author === 'ai' ? character.name : 'Ty'}</span>
+                            <img width={40} className='avatar' src={chat.author === 'ai' ? chat.character?.avatar || character.avatar :
+                                 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={chat.author === 'ai' ? character.name : 'You'} />
+                            <span className='user-name'>{chat.author === 'ai' ? chat.character?.name || character.name : 'Ty'}</span>
                         </div>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}

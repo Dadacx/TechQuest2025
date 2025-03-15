@@ -3,9 +3,8 @@ import '../styles/Chat.css';
 import { PromptFetch, AddHistoryFetch } from './Fetch';
 import ChatSection from './ChatSection';
 
-const Chat = ({ character, chatData, setChatData, setHistory }) => {
+const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWelcome }) => {
     const [prompt, setPrompt] = useState(null);
-    const [isWelcome, setIsWelcome] = useState(true);
     const textareaRef = useRef(null);
     const inputBoxRef = useRef(null);
 
