@@ -28,5 +28,20 @@ const AddCharacterFetch = async (character) => {
     console.log(response)
     return res.ok ? response : null
 }
+const HistoryFetch = async () => {
+    const res = await fetch(`http://192.168.186.71:1122/history`)
+    const json = await res.json()
 
-export { PromptFetch, CharactersFetch, AddCharacterFetch }
+    return json
+}
+const AddHistoryFetch = async (history) => {
+    const res = await fetch(`http://192.168.186.71:1122/history`, {
+        method: "POST",
+        body: JSON.stringify(history),
+    })
+    const response = await res.text()
+    console.log(response)
+    return res.ok ? response : null
+}
+
+export { PromptFetch, CharactersFetch, AddCharacterFetch, HistoryFetch, AddHistoryFetch }

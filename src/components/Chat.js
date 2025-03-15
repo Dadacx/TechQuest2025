@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import '../styles/Chat.css';
-import {PromptFetch} from './Fetch';
+import { PromptFetch, AddHistoryFetch } from './Fetch';
 import ChatSection from './ChatSection';
 
-const Chat = ({ character }) => {
+const Chat = ({ character, chatData, setChatData, setHistory }) => {
     const [prompt, setPrompt] = useState(null);
-    const [chatData, setChatData] = useState([]);
     const [isWelcome, setIsWelcome] = useState(true);
     const textareaRef = useRef(null);
     const inputBoxRef = useRef(null);
@@ -25,24 +24,35 @@ const Chat = ({ character }) => {
             PromptFetch(prompt).then((response) => {
                 console.log(response)
                 setChatData([...chatData, { text: response, author: 'ai' }]);
+                const promptJSON = {
+                    Prompt: prompt.replace(character.behaviour, "").trim(),
+                    Odp: response,
+                    Assistant: character.id
+                }
+                AddHistoryFetch(promptJSON).then((response2) => {
+                    if (response2) {
+                        console.log(response2);
+                        setHistory((prevHistory) => [...prevHistory, promptJSON]);
+                    }
+                });
                 setPrompt(null);
             });
         }
     }, [prompt]);
-    
+
     function sendPrompt() {
         const promptValue = textareaRef.current.value;
 
         if (promptValue.trim() !== '') {
-//             console.log(`${promptValue}
-// ${character.behaviour}`);
-        setPrompt(`${promptValue}
+            //             console.log(`${promptValue}
+            // ${character.behaviour}`);
+            setPrompt(`${promptValue}
 ${character.behaviour}`);
-        setIsWelcome(false);
-        setChatData([...chatData, { text: promptValue, author: 'user' }]);
-        textareaRef.current.value = '';
-        textareaRef.current.focus();
-        adjustHeight();
+            setIsWelcome(false);
+            setChatData([...chatData, { text: promptValue, author: 'user' }]);
+            textareaRef.current.value = '';
+            textareaRef.current.focus();
+            adjustHeight();
         }
     }
 
@@ -59,8 +69,8 @@ ${character.behaviour}`);
 
     return (
         <div className="chat-box">
-            {isWelcome ? <h1>Witaj, nazywam się {character.name}.<br /> Jak mogę ci pomóc?</h1> : 
-            <ChatSection character={character} chatData={chatData} />}
+            {isWelcome ? <h1>Witaj, nazywam się {character.name}.<br /> Jak mogę ci pomóc?</h1> :
+                <ChatSection character={character} chatData={chatData} />}
             <div className={isWelcome ? 'input-box' : 'input-box input-box-down'} ref={inputBoxRef}>
                 <textarea
                     className='chat-input'
@@ -69,9 +79,10 @@ ${character.behaviour}`);
                     onInput={adjustHeight}
                     onKeyUp={(event) => {
                         if (event.key === 'Enter') {
-                          console.log('Enter został naciśnięty!');
-                          sendPrompt();
-                        }}}
+                            console.log('Enter został naciśnięty!');
+                            sendPrompt();
+                        }
+                    }}
                 ></textarea>
                 <div className="send-btn" onClick={sendPrompt}>
                     <div className='send-btn-icon'></div>
