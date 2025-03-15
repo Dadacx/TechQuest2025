@@ -9,8 +9,7 @@ const plusGlyph = "➕"
 
 const Nav = () => {
     const [ bookmarks, setBookmarks ] = useState([
-        {id: "bookmark-1", name: "Zwykly chat."},
-        {id: "bookmark-2", name: "KotAI."},
+        {id: "bookmark-1", name: "Zwykly chat.", workings: ""},
     ])
     // const characters = testCharacter
     const [ characters, setCharacters ] = useState(null)
@@ -39,21 +38,24 @@ const Nav = () => {
     const openBookmarkInput = () => {
         if (bookmarkInputLock) return
         const plusik = document.getElementById("plus")
-        plusik.innerHTML = "<input type='text' autofocus>"
+        plusik.innerHTML = `<input type='text' autofocus placeholder='Nazwa zakladki'><hr><textarea placeholder='Dzialanie zakladki'>`
+        plusik.style.filter = "brightness(80%)"
         bookmarkInputLock = true
-        plusik.lastChild.onkeyup = (e) => {
+        plusik.onkeyup = (e) => {
             if (e.key == 'Enter') {
-                addBookmark(plusik.lastChild.value)
+                addBookmark(plusik.children[0].value, plusik.children[1].value)
                 plusik.innerHTML = plusGlyph
                 bookmarkInputLock = false
             }
         }
     }
 
-    const addBookmark = (name) => {
+    const addBookmark = (name, workings) => {
         const lastIndex = parseInt(bookmarks[bookmarks.length-1].id.split("-")[1])
-        setBookmarks([...bookmarks, {id: `bookmark-${lastIndex+1}`, name: name}])
+        setBookmarks([...bookmarks, {id: `bookmark-${lastIndex+1}`, name: name, workings: workings}])
+        setBookmark(`bookmark-${lastIndex+1}`)
     }
+
     return (
         <>
             <div id='bookmarks'>
