@@ -3,7 +3,8 @@ import testCharacter from '../characters.json'
 import '../styles/Nav.css'
 import { use, useEffect, useState } from 'react'
 import Settings from './Settings.js'
-import { CharactersFetch } from './Fetch.js'
+import History from './History.js'
+import { CharactersFetch, HistoryFetch } from './Fetch.js'
 
 const plusGlyph = "➕"
 
@@ -13,6 +14,8 @@ const Nav = () => {
     ])
     // const characters = testCharacter
     const [ characters, setCharacters ] = useState(null)
+    const [ history, setHistory ] = useState([])
+    const [chatData, setChatData] = useState([]);
     const [ selectedCharacter, setSelectedCharacter ] = useState(0)
     const [ activeBookmark, setBookmark ] = useState("bookmark-1")
     useEffect(() => {
@@ -20,8 +23,11 @@ const Nav = () => {
             setCharacters(response)
             setSelectedCharacter(response[0].id)
         })
+        HistoryFetch().then((response) => {
+            setHistory(response)
+        })
     }, [])
-
+    console.log(chatData)
     useEffect(() => {
         const allButtons = document.querySelectorAll("#bookmarks ul li")
         const activeIndex = parseInt(activeBookmark.split("-")[1])
@@ -69,7 +75,9 @@ const Nav = () => {
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
-            {characters && <Chat character={characters.find(character => character.id === selectedCharacter)} />}
+            <History characters={characters} history={history} setChatData={setChatData} />
+            {characters && <Chat character={characters.find(character => character.id === selectedCharacter)}
+            chatData={chatData} setChatData={setChatData} setHistory={setHistory} />}
         </>
     )
 }

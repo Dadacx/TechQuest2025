@@ -1,7 +1,7 @@
 .settings-container {
     position: absolute;
     top: 10px;
-    left: 5px;
+    left: 10px;
     z-index: 66;
 }
 
@@ -20,6 +20,7 @@
     background-color: var(--color5);
     padding: 10px;
     border-radius: 10px;
+    text-align: center;
 }
 
 .settings-content h2 {

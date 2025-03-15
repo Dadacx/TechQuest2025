@@ -1,5 +1,5 @@
 import '../styles/Settings.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CharacterForm from './CharacterForm';
 import { AddCharacterFetch } from './Fetch';
 import plus_image from '../images/plus-icon.svg';
@@ -7,6 +7,18 @@ import plus_image from '../images/plus-icon.svg';
 const Settings = ({ characters, setCharacters, setSelectedCharacter }) => {
     const [showSettings, setShowSettings] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    useEffect(() => {
+        document.addEventListener('click', handleSettingsClose);
+
+        return () => {
+          document.removeEventListener('click', handleSettingsClose);
+        }
+      }, []);
+    const handleSettingsClose = (e) => {
+        if (!e.target.closest('.settings-container')) {
+          setShowSettings(false);
+        }
+      }
     function addCharacter(character) {
         console.log(character);
         if(character) {
