@@ -30,10 +30,19 @@ const Nav = () => {
             setHistory(response)
         })
         BookmarksFetch().then((response) => {
-            response.map((bookmark) => {
-                console.log(bookmark)
-                addBookmark(bookmark.Nazwa, bookmark.Workings)
-            })
+            //console.log("REs: ", response[0])
+            var newBookmarks = bookmarks
+            var lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
+            for (var i = 0; i < response.length; i++) {
+                const curr = response[i]
+                newBookmarks.push(
+                    { Nazwa: curr.Nazwa, workings: curr.Workings, id: `bookmark-${lastIndex + 1}` }
+                )
+                lastIndex += 1
+            }
+            //
+            //console.log("NEW: ", newBookmarks)
+            setBookmarks(newBookmarks)
         })
     }, [])
     console.log(chatData)
@@ -91,7 +100,7 @@ const Nav = () => {
         const lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
         var bookmarkJSON = { Nazwa: name, workings: workings, id: `bookmark-${lastIndex + 1}` }
         console.log(bookmarkJSON)
-        setBookmarks((prevBookmarks) => [...prevBookmarks, bookmarkJSON])
+        setBookmarks([...bookmarks, bookmarkJSON])
         // setBookmark(`bookmark-${lastIndex + 1}`)
     }
     console.log("bookmarks", bookmarks)
