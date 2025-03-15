@@ -4,7 +4,7 @@ import '../styles/Nav.css'
 import { use, useEffect, useState } from 'react'
 import Settings from './Settings.js'
 import History from './History.js'
-import { CharactersFetch, HistoryFetch, BookmarksFetch, AddBookmarkFetch } from './Fetch.js'
+import { CharactersFetch, HistoryFetch, BookmarksFetch, AddBookmarkFetch, RemoveBookmarkFetch } from './Fetch.js'
 
 const plusGlyph = "➕"
 
@@ -110,7 +110,12 @@ const Nav = () => {
                 <ul>
                     {bookmarks.map((v) => {
                         return (
-                            <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.Nazwa}</li>
+                            <>
+                                <p style={{float: "left", margin: "0.25em", cursor: "pointer"}} onClick={() => RemoveBookmarkFetch({Nazwa: v.Nazwa}).then(r => {
+                                    if (r) setBookmarks(bookmarks.filter(x=>x.Nazwa !== v.Nazwa))
+                                })}>x</p>
+                                <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.Nazwa}</li>
+                            </>
                         )
                     })}
                     <li id="plus" onClick={() => openBookmarkInput()}>{plusikHTML}</li>
