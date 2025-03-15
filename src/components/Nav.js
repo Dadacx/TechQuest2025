@@ -1,5 +1,4 @@
 import Chat from './Chat.js'
-import testCharacter from '../characters.json'
 import '../styles/Nav.css'
 import { use, useEffect, useState } from 'react'
 import Settings from './Settings.js'
@@ -14,7 +13,6 @@ const Nav = () => {
         { id: "bookmark-1", Nazwa: "Zwykly chat.", workings: null },
     ])
     const [plusikHTML, setPlusikHTML] = useState(plusGlyph)
-    // const characters = testCharacter
     const [characters, setCharacters] = useState(null)
     const [history, setHistory] = useState([])
     const [chatData, setChatData] = useState([]);
