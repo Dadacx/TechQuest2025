@@ -32,7 +32,7 @@ const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWe
                 AddHistoryFetch(promptJSON).then((response2) => {
                     if (response2) {
                         console.log(response2);
-                        setHistory((prevHistory) => [...prevHistory, promptJSON]);
+                        setHistory((prevHistory) => [...prevHistory.reverse(), promptJSON].reverse());
                     }
                 });
                 setAiThinking(false);

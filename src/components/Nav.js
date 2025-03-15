@@ -28,7 +28,7 @@ const Nav = () => {
             setSelectedCharacter(response[0].id)
         })
         HistoryFetch().then((response) => {
-            setHistory(response)
+            setHistory(response.reverse())
         })
         BookmarksFetch().then((response) => {
             var newBookmarks = bookmarks
