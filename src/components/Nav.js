@@ -6,10 +6,11 @@ import Settings from './Settings.js'
 import History from './History.js'
 import { CharactersFetch, HistoryFetch } from './Fetch.js'
 
+const plusGlyph = "➕"
+
 const Nav = () => {
-    const [bookmarks, setBookmarks] = useState([
-        { id: "bookmark-1", name: "Zwykly chat." },
-        { id: "bookmark-2", name: "KotAI." },
+    const [ bookmarks, setBookmarks ] = useState([
+        {id: "bookmark-1", name: "Zwykly chat.", workings: ""},
     ])
     // const characters = testCharacter
     const [characters, setCharacters] = useState(null)
@@ -38,11 +39,30 @@ const Nav = () => {
                 allButtons[i].style.filter = `brightness(${(i + 1) > activeIndex ? 50 : 75}%)`
             }
         }
-    }, [activeBookmark])
-    const addBookmark = (name) => {
-        const lastIndex = parseInt(bookmarks[bookmarks.length - 1].id.split("-")[1])
-        setBookmarks([...bookmarks, { id: `bookmark-${lastIndex + 1}`, name: name }])
+    }, [ activeBookmark ])
+
+    var bookmarkInputLock = false
+    const openBookmarkInput = () => {
+        if (bookmarkInputLock) return
+        const plusik = document.getElementById("plus")
+        plusik.innerHTML = `<input type='text' autofocus placeholder='Nazwa zakladki'><hr><textarea placeholder='Dzialanie zakladki'>`
+        plusik.style.filter = "brightness(80%)"
+        bookmarkInputLock = true
+        plusik.onkeyup = (e) => {
+            if (e.key == 'Enter') {
+                addBookmark(plusik.children[0].value, plusik.children[1].value)
+                plusik.innerHTML = plusGlyph
+                bookmarkInputLock = false
+            }
+        }
     }
+
+    const addBookmark = (name, workings) => {
+        const lastIndex = parseInt(bookmarks[bookmarks.length-1].id.split("-")[1])
+        setBookmarks([...bookmarks, {id: `bookmark-${lastIndex+1}`, name: name, workings: workings}])
+        setBookmark(`bookmark-${lastIndex+1}`)
+    }
+
     return (
         <>
             <div id='bookmarks'>
@@ -52,7 +72,7 @@ const Nav = () => {
                             <li key={v.id} id={v.id} onClick={() => setBookmark(v.id)}>{v.name}</li>
                         )
                     })}
-                    <li id="plus" onClick={() => addBookmark("Nowe")}>+</li>
+                    <li id="plus" onClick={() => openBookmarkInput()}>{plusGlyph}</li>
                 </ul>
             </div>
             <Settings characters={characters} setCharacters={setCharacters} setSelectedCharacter={setSelectedCharacter} />
