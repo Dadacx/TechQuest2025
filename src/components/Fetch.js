@@ -60,4 +60,14 @@ const AddBookmarkFetch = async (bookmark) => {
     return res.ok ? response : null
 }
 
-export { PromptFetch, CharactersFetch, AddCharacterFetch, HistoryFetch, AddHistoryFetch, BookmarksFetch, AddBookmarkFetch };
+const RemoveBookmarkFetch = async (name) => {
+    const res = await fetch(`${host}/bookmarks`, {
+        method: "DELETE",
+        body: JSON.stringify(name),
+    })
+    const response = await res.text()
+    console.log(response)
+    return res.ok ? true : false
+}
+
+export { PromptFetch, CharactersFetch, AddCharacterFetch, HistoryFetch, AddHistoryFetch, BookmarksFetch, AddBookmarkFetch, RemoveBookmarkFetch };

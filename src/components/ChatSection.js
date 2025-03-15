@@ -4,7 +4,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 
-const ChatSection = ({ character, chatData }) => {
+const ChatSection = ({ character, chatData, aiThinking }) => {
     return (
         <div className="chat-section" onLoad={(e) => e.currentTarget.scrollTop = e.currentTarget.scrollHeight}>
             {chatData.map((chat, index) => {
@@ -12,7 +12,7 @@ const ChatSection = ({ character, chatData }) => {
                     <div key={index} className={chat.author === 'ai' ? 'message ai-message' : 'message user-message'}>
                         <div className='user-info'>
                             <img width={40} className='avatar' src={chat.author === 'ai' ? chat.character?.avatar || character.avatar :
-                                 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={chat.author === 'ai' ? character.name : 'You'} />
+                                'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={chat.author === 'ai' ? character.name : 'You'} />
                             <span className='user-name'>{chat.author === 'ai' ? chat.character?.name || character.name : 'Ty'}</span>
                         </div>
                         <ReactMarkdown
@@ -44,6 +44,13 @@ const ChatSection = ({ character, chatData }) => {
                     </div>
                 );
             })}
+            {aiThinking && <div className={'message ai-message'}>
+                <div className='user-info'>
+                    <img width={40} className='avatar' src={character.avatar} alt={character.name} />
+                    <span className='user-name'>{character.name}</span>
+                </div>
+                <p>Myślę...</p>
+            </div>}
         </div>
     );
 }

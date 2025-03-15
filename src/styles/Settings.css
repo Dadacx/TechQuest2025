@@ -26,10 +26,15 @@
 .settings-content h2 {
     margin-top: 0;
 }
+.settings-content h3 {
+    margin-bottom: 0;
+}
 .characters-list {
     padding: 10px;
     display: flex;
     gap: 6px;
+    max-width: 500px;
+    overflow: auto;
 }
 .character-item {
     display: flex;

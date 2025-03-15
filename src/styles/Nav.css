@@ -9,31 +9,64 @@
 }
 
 #bookmarks ul {
-    margin-left: 30px;
+    margin-left: 15px;
     list-style-type: none;
 }
 
+.bookmarks-box {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.image {
+    padding: 10px 5px;
+    background: #e74c3c;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete_image {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.bookmarks-box li {
+    flex: 1;
+    list-style: none;
+    padding: 10px;
+    background: #ffffff;
+    /* border-radius: 0 8px 8px 0; */
+    cursor: pointer;
+}
+
+.bookmarks-box li:hover {
+    background: #e0e0e0;
+}
+
 #bookmarks ul li {
+    max-width: 90px;
     filter: brightness(50%);
     background-color: var(--color3);
-    /*
-    border-style: solid;
-    border-color: yellow;
-    border-width: 2px 0px 2px 2px;
-    */
     cursor: pointer;
     display: flex;
     flex-flow: column;
-    border-radius: 10px;
-    padding: 0.25em 2em 0.25em 0.5em;
-    margin: 0.5em -1em 0.5em 0em;
+    justify-content: center;
+    /* border-radius: 10px; */
+    padding: 0.25em 2.3em 0.25em 0.5em;
+    margin: 0.5em 0em 0.5em 0em;
+    min-height: 30px;
 }
 
 #bookmarks ul li#plus {
     justify-content: center;
 }
 
-#plus input, #plus textarea {
+#plus input,
+#plus textarea {
     width: 90%;
     padding: 0.5em;
     margin-right: 6em;

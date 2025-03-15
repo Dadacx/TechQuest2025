@@ -5,6 +5,7 @@ import ChatSection from './ChatSection';
 
 const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWelcome, additionalPrompt }) => {
     const [prompt, setPrompt] = useState(null);
+    const [ aiThinking, setAiThinking ] = useState(false);
     const textareaRef = useRef(null);
     const inputBoxRef = useRef(null);
 
@@ -34,6 +35,7 @@ const Chat = ({ character, chatData, setChatData, setHistory, isWelcome, setIsWe
                         setHistory((prevHistory) => [...prevHistory, promptJSON]);
                     }
                 });
+                setAiThinking(false);
                 setPrompt(null);
             });
         }
@@ -48,6 +50,7 @@ ${character.behaviour}${additionalPrompt ? `\nDodatkowo ${additionalPrompt}` : '
             // console.log(promptString);
             setPrompt(promptString)
             setIsWelcome(false);
+            setAiThinking(true);
             setChatData([...chatData, { text: promptValue, author: 'user' }]);
             textareaRef.current.value = '';
             textareaRef.current.focus();
@@ -69,7 +72,7 @@ ${character.behaviour}${additionalPrompt ? `\nDodatkowo ${additionalPrompt}` : '
     return (
         <div className="chat-box">
             {isWelcome ? <h1>Witaj, nazywam się {character.name}.<br /> Jak mogę ci pomóc?</h1> :
-                <ChatSection character={character} chatData={chatData} />}
+                <ChatSection character={character} chatData={chatData} aiThinking={aiThinking} />}
             <div className={isWelcome ? 'input-box' : 'input-box input-box-down'} ref={inputBoxRef}>
                 <textarea
                     className='chat-input'

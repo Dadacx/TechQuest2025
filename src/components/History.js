@@ -15,7 +15,7 @@ const History = ({ characters, history, setChatData, setIsWelcome }) => {
             setShowHistory(false);
         }
     }
-    console.log(history)
+
     return (<>
         <div className="history-container">
             <div className="history-icon" onClick={() => setShowHistory(!showHistory)}></div>

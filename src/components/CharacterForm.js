@@ -65,7 +65,8 @@ const CharacterForm = ({ Return, setShowForm, initialData, isEdit }) => {
           </label>
           {errors.avatar && <div className='form-error'>{errors.avatar}</div>}
           <label><span>Opis zachowania</span>
-            <textarea onChange={(e) => { RemoveInvalid(e) }} rows='6' id='behaviour' ref={behaviour} defaultValue={initialData?.behaviour} />
+            <textarea onChange={(e) => { RemoveInvalid(e) }} rows='6' id='behaviour' ref={behaviour} defaultValue={initialData?.behaviour}
+            placeholder='Opisz jak najdokładniej jak ma się zachowywać twój asystent' />
           </label>
           {errors.behaviour && <div className='form-error'>{errors.behaviour}</div>}
           <button className='form-btn' onClick={Character}>{isEdit ? "Zapisz zmiany" : "Dodaj"}</button>
