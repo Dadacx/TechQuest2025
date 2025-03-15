@@ -66,6 +66,14 @@
     font-size: 15px;
     margin-top: 5px;
 }
+::placeholder {
+    color: #999999;
+    opacity: 1; /* Firefox */
+  }
+  
+  ::-ms-input-placeholder { /* Edge 12-18 */
+    color: #999999;
+  }
 .form-form input.invalid, .form-form textarea.invalid {
     border-bottom: 2px solid #cf0000;
 }

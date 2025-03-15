@@ -4,7 +4,10 @@
     left: 10px;
     z-index: 66;
 }
-
+.history-list {
+    max-height: 550px;
+    overflow: auto;
+}
 .history-icon {
     width: 30px;
     height: 30px;
